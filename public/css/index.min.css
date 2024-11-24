@@ -4,10 +4,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f8f8f8; /* Dodano tło dla kontrastu */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Dodano cień */
-    border-radius: 10px; /* Zaokrąglone rogi */
-    padding: 20px; /* Odstępy wewnętrzne */
+    background-color: #f8f8f8;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; 
+    padding: 20px;
     box-sizing: border-box;
   }
   
@@ -50,9 +50,12 @@
   .home-page img {
     width: auto; 
     height: auto; 
-    border-radius: 5px;
+    border-radius: 10px;
     object-fit: cover; 
-  }
+    margin-top: 7%;
+    margin-right: 10%;
+}
+
   
 
   .carousel {
