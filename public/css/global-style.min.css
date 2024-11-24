@@ -1,0 +1,118 @@
+body {
+  margin-left: auto;
+  margin-right: auto;
+  width: 1512px;
+  min-height: 100vh;
+  padding: 30px 120px 30px 120px;
+  background: #ddd;
+  background: linear-gradient(
+    0deg,
+    rgb(221, 221, 221) 0%,
+    rgb(255, 255, 255) 100%
+  );
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "s1nt" 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+.medium-text {
+  font-size: 20px;
+}
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin: unset;
+}
+.button,
+button {
+  border: none;
+  width: -moz-fit-content;
+  width: fit-content;
+  background: #000;
+  padding: 15px 20px 15px 20px;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.25);
+}
+.disabled {
+  background: #c3c3c3;
+  color: #7a7878;
+  box-shadow: none;
+}
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="email"],
+select {
+  border: 3px solid #e5e5e5;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  outline: none;
+  font-size: 18px;
+}
+input[type="text"]:not(:-moz-placeholder-shown),
+input[type="password"]:not(:-moz-placeholder-shown),
+input[type="email"]:not(:-moz-placeholder-shown),
+input[type="number"]:not(:-moz-placeholder-shown),
+select:not(:-moz-placeholder-shown) {
+  border-color: #000;
+}
+input[type="text"]:not(:placeholder-shown),
+input[type="text"]:focus,
+input[type="password"]:not(:placeholder-shown),
+input[type="password"]:focus,
+input[type="email"]:not(:placeholder-shown),
+input[type="email"]:focus,
+input[type="number"]:not(:placeholder-shown),
+input[type="number"]:focus,
+select:not(:placeholder-shown),
+select:focus {
+  border-color: #000;
+}
+input[type="text"] ::-webkit-outer-spin-button,
+input[type="text"] ::-webkit-inner-spin-button,
+input[type="password"] ::-webkit-outer-spin-button,
+input[type="password"] ::-webkit-inner-spin-button,
+input[type="email"] ::-webkit-outer-spin-button,
+input[type="email"] ::-webkit-inner-spin-button,
+input[type="number"] ::-webkit-outer-spin-button,
+input[type="number"] ::-webkit-inner-spin-button,
+select ::-webkit-outer-spin-button,
+select ::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="radio"] {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+.price {
+  font-size: 32px;
+  font-weight: bold;
+}
+.arrow {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.arrow svg {
+  width: 36px;
+  height: 36px;
+}
+
+/*# sourceMappingURL=global-style.min.css.map */

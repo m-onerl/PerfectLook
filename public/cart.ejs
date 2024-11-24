@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/cart.min.css" />
+    <title>Twój koszyk - Perfect Look</title>
+  </head>
+  <body>
+    <%- include('components/header.ejs') %>
+    <div class="container">
+      <h1>Koszyk</h1>
+      <div class="products-wrapper">
+        <% cartItems.forEach(item => { %>
+        <div class="product">
+          <img src="img/<%= item.img_file %>" alt="" />
+          <div class="desc">
+            <h1><%= item.product_name %></h1>
+            <div class="medium-text">Ilość: <%= item.quantity %></div>
+            <div class="price-quantity-and-trash">
+              <span class="price"><%= item.item_price %> ,-</span>
+
+              <!-- Tu gdzieś można dać pole zawierające sumę cen produktu. Jak coś znajduje się pod <%= item.total_price %>-->
+
+              <!--########TU ZNAJDUJE SIĘ WSTAWIANIE ILOŚCI PRODUKTU##########-->
+              <input
+                type="number"
+                id="deleteamount_<%= item.product_name %>"
+                name="deleteamount_<%= item.product_name %>"
+                min="1"
+                max="<%= item.quantity %>"
+                value="1"
+              />
+              <!--############################################################-->
+              <button
+                class="trash"
+                onclick="removeItem('<%= item.product_name %>')"
+              >
+                <svg
+                  width="48"
+                  height="44"
+                  viewBox="0 0 48 44"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M42 10.9633C35.34 10.3583 28.64 10.0466 21.96 10.0466C18 10.0466 14.04 10.23 10.08 10.5966L6 10.9633"
+                    stroke="black"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M17 9.11163L17.44 6.70996C17.76 4.96829 18 3.66663 21.38 3.66663H26.62C30 3.66663 30.26 5.04163 30.56 6.72829L31 9.11163"
+                    stroke="black"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M37.6998 16.7567L36.3998 35.2184C36.1798 38.0967 35.9998 40.3334 30.4198 40.3334H17.5798C11.9998 40.3334 11.8198 38.0967 11.5998 35.2184L10.2998 16.7567"
+                    stroke="black"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M20.6602 30.25H27.3202"
+                    stroke="black"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M19 22.9166H29"
+                    stroke="black"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+      <div class="payment-footer">
+        <p class="medium-text">
+          Cena łączna <span class="price"><%= sum %> ,-</span>
+        </p>
+        <a href="/payment_stage1" class="button">Przejdź do płatności</a>
+      </div>
+    </div>
+    <script src="js/removeItemFromCart.js"></script>
+    <%- include('components/footer.ejs') %>
+  </body>
+</html>

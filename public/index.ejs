@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfect Look - Moda na każdą okazję</title>
+    <link rel="stylesheet" type="text/css" href="/css/index.min.css" />
+  </head>
+  <body>
+    <%- include('components/header.ejs') %>
+    <div class="home-page">
+      <div class="info">
+        <h1>Wyprzedaże i Najnowsze Kolekcje!</h1>
+        <p class="medium-text">
+          Znajdź idealny styl dla siebie! Od codziennych ubrań po eleganckie zestawy.
+          Promocje do -50%! Sprawdź najnowsze kolekcje i bestsellerowe produkty już teraz.
+        </p>
+        <button class="shop-now">Kup Teraz</button>
+      </div>
+      <img src="img/main.png" alt="kobieta na zakupach" class="main-image" />
+
+    </div>
+
+    <!-- Sekcja karuzeli produktów -->
+    <div class="carousel" id="product-carousel">
+      <h2>Nasze Bestsellerowe Produkty</h2>
+      <button onclick="prevSlide()" class="arrow">
+        <svg
+          width="27"
+          height="23"
+          viewBox="0 0 27 23"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.0085 23L0.553977 11.5455L12.0085 0.0909095L13.9773 2.03409L5.87216 10.1392H26.8636V12.9517H5.87216L13.9773 21.0312L12.0085 23Z"
+            fill="white"
+          />
+        </svg>
+      </button>
+      <div class="carousel-inner" id="carousel-inner"></div>
+      <button onclick="nextSlide()" class="arrow">
+        <svg
+          width="27"
+          height="23"
+          viewBox="0 0 27 23"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.3551 23L13.3864 21.0568L21.4915 12.9517H0.5V10.1392H21.4915L13.3864 2.05966L15.3551 0.0909095L26.8097 11.5455L15.3551 23Z"
+            fill="white"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Sekcja promocyjna -->
+    <div class="promo-section">
+      <h2>Nie Przegap Okazji!</h2>
+      <p>Ograniczona ilość produktów w promocyjnych cenach. Kup teraz!</p>
+      <button class="promo-button">Zobacz Promocje</button>
+    </div>
+
+    <%- include('components/footer.ejs') %>
+
+    <script src="js/carusel.js"></script>
+  </body>
+</html>

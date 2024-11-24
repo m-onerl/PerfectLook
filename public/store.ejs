@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/store.min.css" />
+    <title>Perfect Size - meble na wymiar</title>
+  </head>
+  <body>
+    <%- include('components/header.ejs') %>
+    <div class="products-wrapper">
+      <% products.forEach(product => { %>
+      <div class="product">
+        <a href="/product/<%= product.product_id %>">
+          <img
+            src="/img/<%= product.img_file %>"
+            alt="<%= product.img_file %>"
+          />
+          <h3><%= product.name %></h3>
+          <h2><%= product.price %> ,-</h2>
+        </a>
+      </div>
+      <% }); %>
+    </div>
+    <%- include('components/footer.ejs') %>
+  </body>
+</html>

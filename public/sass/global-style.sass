@@ -1,0 +1,77 @@
+body
+    margin-left: auto
+    margin-right: auto
+    width: 1512px
+    min-height: 100vh
+    padding: 30px 120px 30px 120px
+    background: rgba(221, 221, 221, 1)
+    background: linear-gradient(0deg, rgba(221,221,221,1) 0%, rgba(255,255,255,1) 100%)
+    font-family: "Inter", sans-serif
+    font-optical-sizing: auto
+    font-style: normal
+    font-variation-settings: "s1nt" 0
+    box-sizing: border-box
+    display: flex
+    justify-content: space-between
+    flex-direction: column
+    align-items: center
+    
+a
+    text-decoration: none
+    color: black
+
+.medium-text
+    font-size: 20px
+
+h1
+    font-size: 32px
+    font-weight: bold
+    margin: unset
+
+.button, button
+    border: none
+    width: fit-content
+    background: black
+    padding: 15px 20px 15px 20px
+    color: white
+    border-radius: 5px
+    box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.25)
+
+.disabled
+    background: #C3C3C3
+    color: #7A7878 
+    box-shadow: none
+
+input[type=text], input[type=password], input[type=number], select
+    border: 3px solid #E5E5E5
+    padding: 10px
+    box-sizing: border-box
+    border-radius: 5px
+    outline: none
+    font-size: 18px
+    &:not(:placeholder-shown), &:focus
+        border-color: black
+    ::-webkit-outer-spin-button, ::-webkit-inner-spin-button 
+        -webkit-appearance: none
+        margin: 0
+
+input[type=radio]
+    border: none
+    outline: none
+    box-shadow: none
+
+.price
+    font-size: 32px
+    font-weight: bold
+
+.arrow
+    border-radius: 50%
+    width: 60px
+    height: 60px
+    display: flex
+    justify-content: center
+    align-items: center
+    cursor: pointer
+    svg
+        width: 36px
+        height: 36px

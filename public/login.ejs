@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaloguj się do Perfect Size</title>
+    <link rel="stylesheet" href="./css/login.min.css">
+</head>
+<body>
+    <%- include('components/header.ejs') %>
+    <div class="container">
+        <h1>Zaloguj się</h1>
+        <% if (typeof errorMessage !== 'undefined') { %>
+            <script>
+                alert("<%= errorMessage %>");
+            </script>
+        <% } %>
+        <form action="/login" method="post">
+            <div class="input-container medium-text">
+                <label for="username">Nazwa użytkownika</label>
+                <input type="text" id="username" name="username" placeholder="Login" value="<%= typeof username !== 'undefined' ? username : '' %>">
+            </div>
+            <div class="input-container medium-text">
+                <label for="password">Hasło</label>
+                <input type="password" id="password" name="password" placeholder="Hasło">
+            </div>
+            <input class="button medium-text" type="submit" value="Zaloguj">
+            <span class="medium-text">Nie masz konta? <a href="/register"><b>Zarejestruj się</b></a></span>
+        </form>
+    </div>
+    <%- include('components/footer.ejs') %>
+</body>
+</html>

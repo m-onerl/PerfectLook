@@ -1,0 +1,33 @@
+
+.container {
+    max-width: 1200px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+section{
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.total-price{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end ;
+    gap: 10px;
+    align-items: center;
+}
+.parcel{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+input[type=radio] {  
+    border: none;  
+}
+.price{
+    font-weight: normal !important;
+    font-size: 24px !important;
+
+}

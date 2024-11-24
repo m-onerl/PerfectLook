@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfect Size - Kreator Mebli</title>
+  <link href="/css/creator.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <%- include('components/header.ejs') %>
+    <div id="container" class="container">
+      <canvas id="creator"></canvas>
+      <div id="gui">
+        <div class="inputBox">
+          <h3>Materiał</h3>
+          <select id="material">
+            <% materials.forEach(material=> { %>
+              <option value="<%= material.color %>">
+                <%= material.name %>
+              </option>
+              <% }); %>
+          </select>
+        </div>
+        <p>Wartości podawane w cm</p>
+      </div>
+    </div>
+    <%- include('components/footer.ejs') %>
+      <script src="/creator/three.min.js"></script>
+      <script type="module" src="/creator/engine.js"></script>
+</body>
+
+</html>

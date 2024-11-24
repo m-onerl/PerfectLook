@@ -1,0 +1,16 @@
+.header {
+  width: 100%;
+  height: min-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header .logo svg {
+  height: min-content;
+}
+.header .links {
+  display: flex;
+  gap: 32px;
+}
+
+/*# sourceMappingURL=header.css.map */

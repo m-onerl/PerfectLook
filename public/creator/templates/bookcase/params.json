@@ -1,0 +1,28 @@
+{
+  "shelfWidth": {
+    "default": 80,
+    "min": 40,
+    "max": 120
+  },
+  "shelvesWidth": {
+    "default": 6,
+    "min": 3,
+    "max": 12
+  },
+  "shelfDepth": {
+    "default": 40,
+    "min": 15,
+    "max": 80
+  },
+  "minRequiredShelvHeight": {
+    "default": 20,
+    "min": 15,
+    "max": 50
+  },
+  "shelfHeight": {
+    "default": 150,
+    "min": 50,
+    "max": 250
+  },
+  "color": "#3F3634"
+}

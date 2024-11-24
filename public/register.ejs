@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zarejestruj się do Perfect Size</title>
+    <link rel="stylesheet" href="./css/register.min.css" />
+</head>
+<body>
+    <%- include('components/header.ejs') %>
+    <div class="container">
+      <h1>Zarejestruj się</h1>
+      <form id="registerForm" action="#" method="post">
+        <div class="input-container medium-text">
+          <label for="firstname">Imię:</label>
+          <input type="text" id="firstname" name="firstname" required /><br />
+          <label for="lastname">Nazwisko:</label>
+          <input type="text" id="lastname" name="lastname" required /><br />
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required /><br />
+          <label for="login">Login:</label>
+          <input type="text" id="login" name="login" required /><br />
+          <label for="password">Hasło:</label>
+          <input type="password" id="password" name="password" required /><br />
+          <label for="confpassword">Potwierdź hasło:</label>
+          <input type="password" id="confpassword" name="confpassword" required /><br />
+          <label for="address">Pełny adres:</label>
+          <input type="text" id="address" name="address" required /><br />
+          <label for="number">Numer kontaktowy:</label>
+          <input type="text" id="number" name="number" required /><br />
+        </div>
+        <input class="button medium-text" type="submit" value="Zaloguj" />
+        <span class="medium-text">Masz konto? <a href="/login"><b>Zaloguj się</b></a></span>
+        <div id="error-message" style="color: red; margin-top: 10px;"></div>
+      </form>
+    </div>
+    <%- include('components/footer.ejs') %>
+    <script src="./js/register.js"></script>
+</body>
+</html>

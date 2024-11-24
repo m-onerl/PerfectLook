@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+  <link rel="stylesheet" type="text/css" href="/css/payment_stage2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <%- include('components/header.ejs') %>
+  <div class="form-container">
+    <div class="container">
+      <div class="payment-options">
+        <h1>Wybierz metodę płatności</h1>
+        <form id="paymentForm">
+          <input type="radio" id="blik" name="paymentMethod" value="blik">
+          <label for="blik">BLIK <img class="icon" src="/img/svg/blik.svg" alt="blik"></label><br>
+          <input type="radio" id="creditCard" name="paymentMethod" value="creditCard">
+          <label for="creditCard">Karta płatnicza <img class="icon" src="/img/svg/mastercard.svg" alt="Mastercard"><img class="icon" src="/img/svg/visa.svg" alt="Visa"></label><br>
+          <input type="radio" id="onShop" name="paymentMethod" value="onShop">
+          <label for="onShop">Płatność przy odbiorze <i class="fa-solid fa-wallet"></i></label><br>
+          <input type="radio" id="installment" name="paymentMethod" value="installment">
+          <label for="installment">Raty</label><br>
+        </form>
+      </div>
+
+      <div id="paymentFields" class="payment-fields"></div>
+    </div>
+
+    <div class="form-section" style="display:none;">
+      <h1>Weź na raty z Perfect Size®</h1>
+      <form id="installmentForm">
+        <input type="radio" id="installment1" name="installmentOption" value="">
+        <label for="installment1"></label><br>
+        <input type="radio" id="installment2" name="installmentOption" value="">
+        <label for="installment2"></label><br>
+        <input type="radio" id="installment3" name="installmentOption" value="">
+        <label for="installment3"></label><br>
+        <span>* Pola wymagane</span><br>
+      </form>
+      <p><strong>Łączna suma:</strong> <span id="total-sum"></span></p>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button type="submit" form="paymentForm">Przejdź do płatności</button>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const courier = urlParams.get('courier');
+    const address = urlParams.get('address');
+    const services = urlParams.get('services');
+    const totalSum = parseFloat(urlParams.get('totalSum'));
+
+    document.getElementById('total-sum').textContent = totalSum.toFixed(2) + ' zł';
+
+    const updateInstallmentOptions = () => {
+      const installment1 = (totalSum / 3).toFixed(2);
+      const installment2 = (totalSum / 6).toFixed(2);
+      const installment3 = (totalSum / 12).toFixed(2);
+
+      document.getElementById('installment1').value = installment1;
+      document.querySelector('label[for="installment1"]').textContent = `${installment1} zł | 3× 0%`;
+
+      document.getElementById('installment2').value = installment2;
+      document.querySelector('label[for="installment2"]').textContent = `${installment2} zł | 6× 0%`;
+
+      document.getElementById('installment3').value = installment3;
+      document.querySelector('label[for="installment3"]').textContent = `${installment3} zł | 12× 0%`;
+    };
+
+    updateInstallmentOptions();
+
+    document.querySelectorAll('input[name="paymentMethod"]').forEach((radio) => {
+      radio.addEventListener("change", () => {
+        const paymentFields = document.getElementById("paymentFields");
+        paymentFields.innerHTML = "";
+
+        if (radio.value === "blik") {
+          paymentFields.innerHTML = `
+            <label for="blikCode">BLIK Code:</label>
+            <input type="text" id="blikCode" name="blikCode" required>
+          `;
+          document.querySelector('.form-section').style.display = 'none';
+        } else if (radio.value === "creditCard") {
+          paymentFields.innerHTML = `
+            <label for="creditCardNumber">Wprowadz dane karty:</label>
+            <input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="Numer karty krerydtowej" required>
+            <div>
+              <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+              <input type="text" id="cvv" name="cvv" placeholder="CVV" required>
+            </div>
+          `;
+          document.querySelector('.form-section').style.display = 'none';
+        } else if (radio.value === "installment") {
+          document.querySelector('.form-section').style.display = 'block';
+        } else {
+          document.querySelector('.form-section').style.display = 'none';
+        }
+      });
+    });
+
+    document.getElementById("paymentForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+      let paymentSuccess = false;
+
+      if (paymentMethod === "blik") {
+        const blikCode = document.getElementById("blikCode").value.trim();
+        if (blikCode.length === 6 && !isNaN(blikCode)) {
+          paymentSuccess = true;
+        }
+      } else if (paymentMethod === "creditCard") {
+        const creditCardNumber = document.getElementById("creditCardNumber").value.trim();
+        const expiryDate = document.getElementById("expiryDate").value.trim();
+        const cvv = document.getElementById("cvv").value.trim();
+        if (creditCardNumber.length === 16 && !isNaN(creditCardNumber) && expiryDate.length === 5 && cvv.length === 3 && !isNaN(cvv)) {
+          paymentSuccess = true;
+        }
+      } else if (paymentMethod === "onShop") {
+        paymentSuccess = true;
+      } else if (paymentMethod === "installment") {
+        const installmentOption = document.querySelector('input[name="installmentOption"]:checked');
+        if (installmentOption) {
+          paymentSuccess = true;
+        }
+      }
+
+      if (paymentSuccess) {
+        try {
+          const response = await fetch("/process-payment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              payment_method: paymentMethod,
+              address: address,
+              courier: courier,
+              services: services
+            })
+          });
+
+          if (!response.ok) {
+            const errorData = await response.text();
+            throw new Error(`Error during payment process: ${errorData}`);
+          }
+
+          const data = await response.text();
+          alert(data);
+          window.location.href = "/"; // Redirect to home page after successful payment
+
+        } catch (error) {
+          console.error("Error:", error);
+          alert("An error occurred during the payment process. Please try again.");
+        }
+      } else {
+        alert("Wprowadź poprawne dane płatności");
+      }
+    });
+  </script>
+
+  <%- include('components/footer.ejs') %>
+</body>
+</html>
