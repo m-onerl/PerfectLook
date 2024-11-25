@@ -11,7 +11,6 @@ router.post("/login", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    // Check if username or password is missing
     if (!username || !password) {
         const errorMessage = "Wprowadź nazwę użytkownika i hasło.";
         return res.render("login", { errorMessage, username });
