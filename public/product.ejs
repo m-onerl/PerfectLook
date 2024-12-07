@@ -53,18 +53,10 @@
     <div class="dimensions medium-text">
       <h2>Wymiary</h2>
       <% if (product.category_id === 6) { %>
-        <p>Wysokość szuflady (wewnątrz): <%= product.drawer_height %> cm</p>
+        <p>Wysokość :
         <p>Długość: <%= product.length %> cm</p>
         <p>Szerokość: <%= product.width %> cm</p>
-        <p>Szerokość szuflady (wewnętrzna): </p>
-        <p>Głębokość szuflady (wewnętrzna): </p>
-        <p>Wysokość szczytu: </p>
-        <p>Wysokość szczytu: </p>
-        <p>Wysokość: <%= product.height %> cm </p>
-      <% } else { %>
-        <p>Długość: <%= product.length %> cm</p>
-        <p>Szerokość: <%= product.width %> cm</p>
-        <p>Wysokość: <%= product.height %> cm </p>
+
       <% } %>
     </div>
     <%- include('components/footer.ejs') %>

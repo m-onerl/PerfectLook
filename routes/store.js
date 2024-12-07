@@ -3,7 +3,7 @@ const router = express.Router();
 const connection = require("../dbConnect");
 
 router.get("/store", (req, res) => {
-  const sql = "SELECT * FROM products WHERE product_type='configurable'";
+  const sql = "SELECT * FROM products WHERE product_type='simple'";
   connection.query(sql, (error, results) => {
     if (error) {
       console.error(error.message);

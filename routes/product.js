@@ -1,243 +1,123 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../dbConnect');
-const { createSlots } = require('vue');
 
 router.get("/product/:id", (req, res) => {
     const productId = req.params.id;
-    var cartQuantity;
-    var difQuantity;
 
-    // Zapytanie dla produktu typu configurable
-    const sqlForConfigurable = `
-    SELECT s.*
-    FROM products c
-    JOIN simple_to_configurable stc ON c.product_id = stc.configurable_id
-    JOIN products s ON stc.simple_id = s.product_id
-    WHERE c.product_type = 'configurable' AND c.product_id = ?;
-  `;
-
-    // Zapytanie dla produktu typu simple powiązanego z configurable
-    const sqlForSimple = `
-    SELECT s.*
-    FROM simple_to_configurable stc1
-    JOIN products p ON stc1.simple_id = p.product_id
-    JOIN simple_to_configurable stc2 ON stc1.configurable_id = stc2.configurable_id
-    JOIN products s ON stc2.simple_id = s.product_id
-    WHERE stc1.simple_id = ?;
-  `;
-    const sqlForQuantity = `
-    SELECT quantity
-    FROM carts
-    WHERE id_product = ? AND id_user = ?;
+    // SQL query to fetch all products ordered by product_id
+    const sql = `
+        SELECT * 
+        FROM products 
+        ORDER BY product_id ASC;
     `;
 
-    // Najpierw sprawdzamy, czy podane ID produktu jest typu configurable
-    connection.query(
-      sqlForConfigurable,
-      [productId],
-      (error, configResults) => {
+    connection.query(sql, (error, results) => {
         if (error) {
-          console.error(error.message);
-          return res.status(500).send("Error fetching data from the database");
+            console.error("Database error:", error.message);
+            return res.status(500).send("Error fetching product details");
         }
 
-        if (configResults.length > 0) {
-          // Jeśli jest to produkt configurable, pobierz dane i przekieruj do jednego z jego produktów simple
-          let productData = configResults[0];
-          if(req.session.user) {
-            connection.query(
-              sqlForQuantity,
-              [productId, req.session.user.id_user],
-              (error, result) => {
-                if (error) {
-                  console.error(error.message);
-                  return res.status(500).send("Error fetching data from the database");
-                }
-                  if(result.length > 0) {
-                  cartQuantity = result[0].quantity;
-                  console.log("quantity: "+ cartQuantity);
-                  console.log("Cart Quantity simple: "+ cartQuantity);
-                  difQuantity = productData.qauntity - cartQuantity;
-                  console.log("Dif Quantity simple: "+difQuantity);
-                  res.render("product", {
-                    product: productData,
-                    otherVariants: configResults,
-                    difQuantity : difQuantity
-                  });
-                }
-                else {
-                  cartQuantity = 0;
-                  console.log("Cart Quantity simple: "+ cartQuantity);
-                  difQuantity = productData.qauntity - cartQuantity;
-                  console.log("Dif Quantity simple: "+difQuantity);
-                  res.render("product", {
-                    product: productData,
-                    otherVariants: configResults,
-                    difQuantity : difQuantity
-                  });
-                }
-  
-              }
-            );
-          }
-          else {
-            cartQuantity = 0;
-            console.log("Cart Quantity simple: "+ cartQuantity);
-            difQuantity = productData.qauntity - cartQuantity;
-            console.log("Dif Quantity simple: "+difQuantity);
-            res.render("product", {
-              product: productData,
-              otherVariants: configResults,
-              difQuantity : difQuantity
-            });
-          } 
-        } else {
-          // Jeśli nie jest to produkt configurable, sprawdzamy, czy jest to produkt simple
-          connection.query(
-            sqlForSimple,
-            [productId],
-            (error, simpleResults) => {
-              if (error) {
-                console.error(error.message);
-                return res
-                  .status(500)
-                  .send("Error fetching data from the database");
-              }
+        // Find the specific product by ID
+        const productData = results.find(product => product.product_id == productId);
 
-              if (simpleResults.length > 0) {
-                // Znajdź produkt simple, którego ID szukaliśmy
-                const productData = simpleResults.find(
-                  (p) => p.product_id == productId
-                );
-                if (productData) {
-                  if(req.session.user) {
-                  connection.query(
-                    sqlForQuantity,
-                    [productId, req.session.user.id_user],
-                    (error, result) => {
-                      if (error) {
-                        console.error(error.message);
-                        return res.status(500).send("Error fetching data from the database");
-                      }
-                        if(result.length > 0) {
-                        cartQuantity = result[0].quantity;
-                        console.log("quantity: "+ cartQuantity);
-                        console.log("Cart Quantity simple: "+ cartQuantity);
-                        difQuantity = productData.qauntity - cartQuantity;
-                        console.log("Dif Quantity simple: "+difQuantity);
-                        res.render("product", {
-                          product: productData,
-                          otherVariants: simpleResults,
-                          difQuantity : difQuantity
-                        });
-                      }
-                      else {
-                        cartQuantity = 0;
-                        console.log("Cart Quantity simple: "+ cartQuantity);
-                        difQuantity = productData.qauntity - cartQuantity;
-                        console.log("Dif Quantity simple: "+difQuantity);
-                        res.render("product", {
-                          product: productData,
-                          otherVariants: simpleResults,
-                          difQuantity : difQuantity
-                        });
-                      }
-        
-                    }
-                  );
-                }
-                else {
-                  cartQuantity = 0;
-                  console.log("Cart Quantity simple: "+ cartQuantity);
-                  difQuantity = productData.qauntity - cartQuantity;
-                  console.log("Dif Quantity simple: "+difQuantity);
-                  res.render("product", {
-                    product: productData,
-                    otherVariants: simpleResults,
-                    difQuantity : difQuantity
-                  });
-                }
-                } else {
-                  return res.status(404).send("Product not found");
-                }
-              } else {
-                return res.status(404).send("Product not found");
-              }
-            }
-          );
+        if (!productData) {
+            return res.status(404).send("Product not found");
         }
-      }
-    );
-});
-router.post("/product/:id", (req, res) => {
-if (!req.session.user) res.redirect("/login");
-else {
-    const product_id = req.params.id;
-    const quantity = req.body.addtocart;
-    console.log(quantity);
-    const sql =
-    "UPDATE products SET qauntity = qauntity - ? WHERE product_id = ? AND qauntity > 0";
-    /*connection.query(sql, [quantity, product_id], (error, results) => {
-    if (error) {
-        console.error(error.message);
-        return res.status(500).send("Error fetching data from the database");
-    }*/
-    var innersql =
-        "UPDATE products SET qauntity = qauntity - ? WHERE product_type = 'configurable' AND qauntity > 0 AND category_id = (SELECT category_id FROM products WHERE product_id = ?)";
-    /*connection.query(innersql, [quantity, product_id], (error, results) => {
-        if (error) {
-        console.error(error.message);
-        return res
-            .status(500)
-            .send("Error fetching data from the database");
-        }*/
-        innersql = "SELECT * FROM carts WHERE id_user = ? AND id_product = ?";
-        connection.query(
-        innersql,
-        [req.session.user.id_user, product_id],
-        (error, results) => {
-            if (error) {
-            console.error(error.message);
-            return res
-                .status(500)
-                .send("Error fetching data from the database");
-            }
-            if (results.length === 0) {
-            innersql =
-                "INSERT INTO carts (id_user, id_product, quantity) VALUES (?, ?, ?);";
-            connection.query(
-                innersql,
-                [req.session.user.id_user, product_id, quantity],
-                (error, results) => {
-                if (error) {
-                    console.error(error.message);
-                    return res
-                    .status(500)
-                    .send("Error fetching data from the database");
-                }
-                }
-            );
-            } else {
-            innersql =
-                "UPDATE carts SET quantity = quantity + ? WHERE id_user = ? AND id_product = ?";
-            connection.query(
-                innersql,
-                [quantity, req.session.user.id_user, product_id],
-                (error, results) => {
-                if (error) {
-                    console.error(error.message);
-                    return res
-                    .status(500)
-                    .send("Error fetching data from the database");
-                }
-                }
-            );
-            }
-        }
+
+        // Fetch related product variants (assuming a configurable-simple relationship exists)
+        const otherVariants = results.filter(product => 
+            product.configurable_id === productData.configurable_id && 
+            product.product_id !== productId
         );
-    res.redirect(`/product/${product_id}`);
-}
+
+        // Calculate the available quantity for the user
+        const difQuantity = productData.quantity - (
+            req.session?.user?.cart?.[productId]?.quantity || 0
+        );
+
+        res.render("product", {
+            product: productData,
+            otherVariants,
+            difQuantity
+        });
+    });
+});
+
+// POST route to add a product to the cart
+router.post("/product/:id", (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+
+    const productId = req.params.id;
+    const quantity = parseInt(req.body.addtocart, 10);
+
+    if (isNaN(quantity) || quantity <= 0) {
+        return res.status(400).send("Invalid quantity");
+    }
+
+    // SQL to update product quantity
+    const updateProductSql = `
+        UPDATE products 
+        SET quantity = quantity - ? 
+        WHERE product_id = ? AND quantity >= ?;
+    `;
+
+    connection.query(updateProductSql, [quantity, productId, quantity], (error, results) => {
+        if (error) {
+            console.error("Error updating product quantity:", error.message);
+            return res.status(500).send("Error updating product quantity");
+        }
+
+        if (results.affectedRows === 0) {
+            return res.status(400).send("Not enough stock available");
+        }
+
+        // SQL to check if the product is already in the user's cart
+        const checkCartSql = `
+            SELECT * FROM carts 
+            WHERE id_user = ? AND id_product = ?;
+        `;
+
+        connection.query(checkCartSql, [req.session.user.id_user, productId], (error, cartResults) => {
+            if (error) {
+                console.error("Error fetching cart data:", error.message);
+                return res.status(500).send("Error fetching cart data");
+            }
+
+            if (cartResults.length > 0) {
+                // Update existing cart entry
+                const updateCartSql = `
+                    UPDATE carts 
+                    SET quantity = quantity + ? 
+                    WHERE id_user = ? AND id_product = ?;
+                `;
+
+                connection.query(updateCartSql, [quantity, req.session.user.id_user, productId], (error) => {
+                    if (error) {
+                        console.error("Error updating cart:", error.message);
+                        return res.status(500).send("Error updating cart");
+                    }
+                    res.redirect(`/product/${productId}`);
+                });
+            } else {
+                // Insert new entry into cart
+                const insertCartSql = `
+                    INSERT INTO carts (id_user, id_product, quantity) 
+                    VALUES (?, ?, ?);
+                `;
+
+                connection.query(insertCartSql, [req.session.user.id_user, productId, quantity], (error) => {
+                    if (error) {
+                        console.error("Error inserting into cart:", error.message);
+                        return res.status(500).send("Error inserting into cart");
+                    }
+                    res.redirect(`/product/${productId}`);
+                });
+            }
+        });
+    });
 });
 
 module.exports = router;

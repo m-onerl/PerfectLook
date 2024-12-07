@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lis 20, 2024 at 03:10 PM
+-- Generation Time: Dec 07, 2024 at 12:50 PM
 -- Wersja serwera: 10.4.32-MariaDB
--- Wersja PHP: 8.2.12
+-- Wersja PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,7 +40,8 @@ CREATE TABLE `carts` (
 
 INSERT INTO `carts` (`id_cart`, `id_user`, `id_product`, `quantity`) VALUES
 (1, 1, 1, 2),
-(2, 1, 2, 1);
+(2, 1, 2, 1),
+(57, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -123,7 +124,7 @@ CREATE TABLE `products` (
   `category_id` int(11) NOT NULL,
   `img_file` text NOT NULL,
   `description` text DEFAULT NULL COMMENT 'tu beda opisy ubran',
-  `qauntity` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT NULL,
   `product_type` enum('simple','configurable') NOT NULL,
   `hex_color` varchar(7) NOT NULL,
   `size` float DEFAULT NULL,
@@ -136,10 +137,10 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `name`, `price`, `category_id`, `img_file`, `description`, `qauntity`, `product_type`, `hex_color`, `size`, `brand`, `fabric`, `gender`) VALUES
-(1, 'Basic T-Shirt', 19.99, 1, 'tshirt.jpg', 'High-quality cotton t-shirt.', 100, 'simple', '#FFFFFF', 40, 'BrandX', 'Cotton', 'unisex'),
-(2, 'Blue Jeans', 49.99, 2, 'jeans.jpg', 'Classic blue denim jeans.', 50, 'simple', '#0000FF', 32, 'BrandY', 'Denim', 'men'),
-(3, 'Elegant Dress', 79.99, 3, 'dress.jpg', 'Perfect dress for special occasions.', 30, 'simple', '#FF69B4', 38, 'BrandZ', 'Silk', 'women');
+INSERT INTO `products` (`product_id`, `name`, `price`, `category_id`, `img_file`, `description`, `quantity`, `product_type`, `hex_color`, `size`, `brand`, `fabric`, `gender`) VALUES
+(1, 'Louis Vuitton Shirts', 19.99, 1, '/Shirts/Louis-Vuitton-Shirts-for-Louis-Vuitton-longsleeved-Cream-H003.jpg', 'High-quality cotton shirt.', 100, 'simple', '#FFFFFF', 40, 'Louis Vuitton', 'Cotton', 'unisex'),
+(2, 'Blue Chrome Hearts Jeans', 49.99, 2, '/Jeans/Chrome-Hearts-Jeans-A002.jpg', 'Classic blue denim jeans with cross path', 49, 'simple', '#0000FF', 32, 'Chrome Hearts', 'Denim', 'men'),
+(3, 'Gucci Hoodie Lemon', 79.99, 5, '/Hoodies/Gucci-Hoodies-Cream-B004.png', 'Perfect hoodie comfortable materials.', 30, 'simple', '#FF69B4', 38, 'Gucci', 'Cotton', 'women');
 
 -- --------------------------------------------------------
 
@@ -219,7 +220,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `categories`
