@@ -3,30 +3,35 @@ const router = express.Router();
 const connection = require("../dbConnect");
 
 router.get("/cart", (req, res) => {
-  if (!req.session.user) res.redirect("/login");
-  else {
-    console.log(req.session.user.id_user);
-    let sql =
-      "SELECT p.img_file AS img_file, p.name AS product_name, p.price AS item_price, ROUND((p.price * cart.quantity), 2) AS total_price, cart.quantity AS quantity FROM carts AS cart JOIN users AS c ON cart.id_user = c.id_user JOIN products AS p ON cart.id_product = p.product_id WHERE cart.id_user = ?";
-    connection.query(sql, [req.session.user.id_user], (error, result) => {
+  if (!req.session.user) {
+    return res.redirect("/login"); // Używamy `return`, aby zatrzymać dalsze wykonanie
+  }
+
+  console.log(req.session.user.id_user);
+
+  let sql =
+    "SELECT p.img_file AS img_file, p.name AS product_name, p.price AS item_price, ROUND((p.price * cart.quantity), 2) AS total_price, cart.quantity AS quantity FROM carts AS cart JOIN users AS c ON cart.id_user = c.id_user JOIN products AS p ON cart.id_product = p.product_id WHERE cart.id_user = ?";
+  connection.query(sql, [req.session.user.id_user], (error, result) => {
+    if (error) {
+      console.error(error.message);
+      return res.status(500).send("Error fetching data from the database");
+    }
+
+    sql =
+      "SELECT ROUND(SUM(carts.quantity * products.price), 2) AS total_price FROM carts JOIN products ON carts.id_product = products.product_id WHERE carts.id_user = ?";
+    connection.query(sql, [req.session.user.id_user], (error, sumResult) => {
       if (error) {
         console.error(error.message);
-        return res.status(500).send("Error fetching data from the database");
+        return res.status(500).send("Error fetching sum from the database");
       }
-      sql =
-        "SELECT ROUND(SUM(carts.quantity * products.price), 2) AS total_price FROM carts JOIN products ON carts.id_product = products.product_id WHERE carts.id_user = ?;";
-      connection.query(sql, [req.session.user.id_user], (error, sumResult) => {
-        if (error) {
-          console.error(error.message);
-          return res.status(500).send("Error fetching sum from the database");
-        }
-        var sum = parseFloat(sumResult[0].total_price).toFixed(2);
-        console.log(sum);
 
-        res.render("cart", { cartItems: result, sum: sum });
-      });
+      const sum = parseFloat(sumResult[0].total_price || 0).toFixed(2);
+      console.log(sum);
+
+      // Przekazanie wyników do renderera EJS
+      return res.render("cart", { cartItems: result, sum: sum });
     });
-  }
+  });
 });
 
 
@@ -57,6 +62,7 @@ router.post("/process-payment", (req, res) => {
   if (payment_method === "creditCard" || payment_method === "blik") {
       status = "zapłacono";
   }
+  
 
   console.log("Processing payment with the following data:");
   console.log("User ID:", userId);
