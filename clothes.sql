@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2024 at 03:50 PM
+-- Generation Time: Dec 08, 2024 at 06:03 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -40,9 +40,7 @@ CREATE TABLE `carts` (
 
 INSERT INTO `carts` (`id_cart`, `id_user`, `id_product`, `quantity`) VALUES
 (1, 1, 1, 2),
-(2, 1, 2, 1),
-(58, 2, 56, 1),
-(59, 2, 1, 1);
+(2, 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -110,7 +108,33 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`id_order`, `id_user`, `date`, `address`, `courier`, `payment_method`, `status`) VALUES
 (1, 1, '2024-11-20', '123 Example Street', 'DHL', 'credit_card', 'zapłacono'),
-(2, 1, '2024-11-21', '123 Example Street', 'DPD', 'paypal', 'oczekiwanie');
+(2, 1, '2024-11-21', '123 Example Street', 'DPD', 'paypal', 'oczekiwanie'),
+(26, 2, '2024-12-08', '456 Admin Lane', 'DHL', 'installment', 'oczekiwanie'),
+(27, 2, '2024-12-08', '456 Admin Lane', 'DHL', 'blik', 'zapłacono'),
+(28, 2, '2024-12-08', '456 Admin Lane', 'DHL', 'onShop', 'oczekiwanie'),
+(29, 2, '2024-12-08', '456 Admin Lane', 'DHL', 'installment', 'oczekiwanie');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `order_ele`
+--
+
+CREATE TABLE `order_ele` (
+  `id_order_ele` int(11) NOT NULL,
+  `id_order` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_ele`
+--
+
+INSERT INTO `order_ele` (`id_order_ele`, `id_order`, `id_product`, `quantity`) VALUES
+(1, 27, 1, 1),
+(2, 28, 1, 1),
+(3, 29, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -140,10 +164,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `name`, `price`, `category_id`, `img_file`, `description`, `quantity`, `product_type`, `hex_color`, `size`, `brand`, `fabric`, `gender`, `configurable_id`) VALUES
-(1, 'Louis Vuitton Shirts', 19.99, 1, '/Shirts/Louis-Vuitton-Shirts-for-Louis-Vuitton-longsleeved-Cream-H003.jpg', 'High-quality cotton shirt.', 99, 'simple', '#D6BDAA', 40, 'Louis Vuitton', 'Cotton', 'unisex', 1),
+(1, 'Louis Vuitton Shirts', 19.99, 1, '/Shirts/Louis-Vuitton-Shirts-for-Louis-Vuitton-longsleeved-Cream-H003.jpg', 'High-quality cotton shirt.', 94, 'simple', '#D6BDAA', 40, 'Louis Vuitton', 'Cotton', 'unisex', 1),
 (2, 'Blue Chrome Hearts Jeans', 49.99, 2, '/Jeans/Chrome-Hearts-Jeans-A002.jpg', 'Classic blue denim jeans with cross path', 49, 'simple', '#0000FF', 32, 'Chrome Hearts', 'Denim', 'men', NULL),
 (3, 'Gucci Hoodie Lemon', 79.99, 5, '/Hoodies/Gucci-Hoodies-Cream-B004.png', 'Perfect hoodie comfortable materials.', 30, 'simple', '#FF69B4', 38, 'Gucci', 'Cotton', 'women', NULL),
-(56, 'Louis Vuitton white Shirts', 19, 1, '/Shirts/Louis-Vuitton-Shirts-for-Louis-Vuitton-longsleeved-White-H002.jpg', 'white,comfy shirt', 49, 'simple', '#FFFFFF', 40, 'Louis Vuitton', 'Cotton', 'men', 1);
+(56, 'Louis Vuitton white Shirts', 19, 1, '/Shirts/Louis-Vuitton-Shirts-for-Louis-Vuitton-longsleeved-White-H002.jpg', 'white,comfy shirt', 49, 'configurable', '#FFFFFF', 40, 'Louis Vuitton', 'Cotton', 'men', 1);
 
 -- --------------------------------------------------------
 
@@ -203,6 +227,14 @@ ALTER TABLE `orders`
   ADD KEY `fk_orders_users` (`id_user`);
 
 --
+-- Indeksy dla tabeli `order_ele`
+--
+ALTER TABLE `order_ele`
+  ADD PRIMARY KEY (`id_order_ele`),
+  ADD KEY `id_order` (`id_order`),
+  ADD KEY `id_product` (`id_product`);
+
+--
 -- Indeksy dla tabeli `products`
 --
 ALTER TABLE `products`
@@ -223,7 +255,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -241,7 +273,13 @@ ALTER TABLE `couriers`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `order_ele`
+--
+ALTER TABLE `order_ele`
+  MODIFY `id_order_ele` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -271,6 +309,13 @@ ALTER TABLE `carts`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `fk_orders_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `order_ele`
+--
+ALTER TABLE `order_ele`
+  ADD CONSTRAINT `order_ele_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id_order`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_ele_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `products`

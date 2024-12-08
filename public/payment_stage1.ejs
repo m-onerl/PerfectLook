@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfect Look </title>
+  <title>Perfect Look</title>
   <link rel="stylesheet" type="text/css" href="/css/payment_stage.css">
 </head>
 
@@ -28,17 +28,6 @@
         </label>
       <% }); %>
     </section>
-
-    <section>
-      <h1>Dodatkowe usługi</h1>
-      <% services.forEach(item => { %>
-        <label>
-          <input type="checkbox" name="additional_service" value="<%= item.basic_price %>" data-service="<%= item.name %>">
-          <%= item.name %> | <%= item.basic_price %>,-
-        </label>
-        <p><%= item.discription %></p>
-      <% }); %>
-    </section>
   </div>
 
   <div class="total-price">
@@ -50,14 +39,14 @@
   <%- include('components/footer.ejs') %>
 
   <script>
-    let curierName = ""
-    let totalSum = <%= sum %>;
+    let curierName = "";
+    let totalSum = parseFloat(<%= sum %>).toFixed(2);
     let lastCourierValue = 0;
 
     const updateCurierName = (newName) => {
-      curierName = newName
-      console.log(curierName)
-    }
+      curierName = newName;
+      console.log(curierName);
+    };
 
     document.getElementById('total-sum').textContent = totalSum + ' ,-';
 
@@ -70,39 +59,24 @@
       });
     });
 
-    document.querySelectorAll('input[name="additional_service"]').forEach((input) => {
-      input.addEventListener('change', (event) => {
-        if (event.target.checked) {
-          totalSum += parseFloat(event.target.value);
-        } else {
-          totalSum -= parseFloat(event.target.value);
-        }
-        document.getElementById('total-sum').textContent = totalSum + ' ,-';
-      });
-    });
-
     document.getElementById('next-button').addEventListener('click', function () {
-  let couriersSelected = document.querySelector('input[name="couriers"]:checked');
-  let deliveryAddressSelected = document.querySelector('input[name="delivery_address"]:checked');
-  let selectedServices = Array.from(document.querySelectorAll('input[name="additional_service"]:checked')).map(input => input.dataset.service);
+      let couriersSelected = document.querySelector('input[name="couriers"]:checked');
+      let deliveryAddressSelected = document.querySelector('input[name="delivery_address"]:checked');
 
-  if (couriersSelected && deliveryAddressSelected) {
-    let courierName = couriersSelected.dataset.name;
-    let deliveryAddress = deliveryAddressSelected.value;
-    let services = selectedServices.join(',');
+      if (couriersSelected && deliveryAddressSelected) {
+        let courierName = couriersSelected.dataset.name;
+        let deliveryAddress = deliveryAddressSelected.value;
 
-    let url = new URL('/payment_stage2', window.location.origin);
-    url.searchParams.append('courier', courierName);
-    url.searchParams.append('address', deliveryAddress);
-    url.searchParams.append('services', services);
-    url.searchParams.append('totalSum', totalSum); // Pass totalSum as a query parameter
+        let url = new URL('/payment_stage2', window.location.origin);
+        url.searchParams.append('courier', courierName);
+        url.searchParams.append('address', deliveryAddress);
+        url.searchParams.append('totalSum', totalSum); // Pass totalSum as a query parameter
 
-    window.location.href = url.toString();
-  } else {
-    alert('Proszę wybrać kuriera i adres dostawy przed kontynuacją.');
-  }
-});
-
+        window.location.href = url.toString();
+      } else {
+        alert('Proszę wybrać kuriera i adres dostawy przed kontynuacją.');
+      }
+    });
   </script>
 </body>
 

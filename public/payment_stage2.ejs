@@ -51,7 +51,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     const courier = urlParams.get('courier');
     const address = urlParams.get('address');
-    const services = urlParams.get('services');
     const totalSum = parseFloat(urlParams.get('totalSum'));
 
     document.getElementById('total-sum').textContent = totalSum.toFixed(2) + ' zł';
@@ -87,7 +86,7 @@
         } else if (radio.value === "creditCard") {
           paymentFields.innerHTML = `
             <label for="creditCardNumber">Wprowadz dane karty:</label>
-            <input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="Numer karty krerydtowej" required>
+            <input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="Numer karty kredytowej" required>
             <div>
               <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
               <input type="text" id="cvv" name="cvv" placeholder="CVV" required>
@@ -139,7 +138,7 @@
               payment_method: paymentMethod,
               address: address,
               courier: courier,
-              services: services
+              totalSum: totalSum
             })
           });
 
