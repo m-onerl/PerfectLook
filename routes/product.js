@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const connection = require('../dbConnect');
 
+// GET route to fetch product details
 router.get("/product/:id", (req, res) => {
     const productId = req.params.id;
 
@@ -15,27 +16,37 @@ router.get("/product/:id", (req, res) => {
     connection.query(sql, (error, results) => {
         if (error) {
             console.error("Database error:", error.message);
-            return res.status(500).send("Error fetching product details");
+            return res.status(500).json({ error: "Error fetching product details" });
         }
 
-        // Find the specific product by ID
         const productData = results.find(product => product.product_id == productId);
 
         if (!productData) {
-            return res.status(404).send("Product not found");
+            return res.status(404).json({ error: "Product not found" });
         }
 
-        // Fetch related product variants (assuming a configurable-simple relationship exists)
-        const otherVariants = results.filter(product => 
-            product.configurable_id === productData.configurable_id && 
-            product.product_id !== productId
-        );
+        // Fetch related product variants
+        const otherVariants = productData.configurable_id
+            ? results.filter(product => 
+                product.configurable_id === productData.configurable_id && 
+                product.product_id !== productId
+              )
+            : [];
 
-        // Calculate the available quantity for the user
         const difQuantity = productData.quantity - (
             req.session?.user?.cart?.[productId]?.quantity || 0
         );
 
+        // Sprawdź, czy zapytanie jest typu JSON (z fetch)
+        if (req.headers.accept.includes("application/json")) {
+            return res.json({
+                product: productData,
+                otherVariants,
+                difQuantity
+            });
+        }
+
+        // Renderowanie strony
         res.render("product", {
             product: productData,
             otherVariants,

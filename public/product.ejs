@@ -4,62 +4,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfect Look - <%= product.name %>
-  </title>
+  <title>Perfect Look - <%= product.name %></title>
   <link rel="stylesheet" type="text/css" href="/css/product.min.css" />
 </head>
 
 <body>
   <%- include('components/header.ejs') %>
-    <div class="content">
-      <div class="product-image">
-        <img src="/img/<%= product.img_file %>" alt="<%= product.name %>" />
-      </div>
-      <div class="info">
-        <h1>
-          <%= product.name %>
-        </h1>
-        <h2 class="price">
-          <%= product.price %> ,-
-        </h2>
-        <p class="desc medium-text">
-          <%= product.description %>
-        </p>
-        <p class="medium-text">Sztuk na magazynie: <%= product.qauntity %></p>
-        <div class="colors-container">
-          <p class="medium-text">Dostępne kolorystyki</p>
-          <div class="colors">
-                    <% otherVariants.forEach(variant => { %>
-                    <a href="/product/<%= variant.product_id %>">
-                        <div class="dot" style="background-color: <%= variant.hex_color %>"></div>
-                    </a>
-                    <% }); %>
-          </div>
+  <div class="content">
+    <div class="product-image">
+      <img id="product-image" src="/img/<%= product.img_file %>" alt="<%= product.name %>" />
+    </div>
+    <div class="info">
+      <h1 id="product-name"><%= product.name %></h1>
+      <h2 class="price" id="product-price"><%= product.price %> ,-</h2>
+      <p class="desc medium-text" id="product-description"><%= product.description %></p>
+      <p class="medium-text" id="product-stock">Sztuk na magazynie: <%= product.quantity %></p>
+      <div class="colors-container">
+        <p class="medium-text">Dostępne kolorystyki</p>
+        <div class="colors">
+          <% otherVariants.forEach(variant => { %>
+          <button 
+            class="color-button" 
+            style="background-color: <%= variant.hex_color %>;" 
+            data-id="<%= variant.product_id %>">
+          </button>
+          <% }); %>
         </div>
-              <form method="post">
-            <input
-            value="1"
-              type="number"
-              id="addtocart"
-              name="addtocart"
-              min="1"
-              max="<%= difQuantity %>"
-            />
-            <button <%= product.qauntity < 1 ? 'class="disabled"' : '' %> type="submit">Dodaj do koszyka</button>
-          </form>
       </div>
-
+      <form method="post">
+        <input
+          value="1"
+          type="number"
+          id="addtocart"
+          name="addtocart"
+          min="1"
+          max="<%= difQuantity %>"
+        />
+        <button <%= product.quantity < 1 ? 'class="disabled"' : '' %> type="submit">Dodaj do koszyka</button>
+      </form>
     </div>
-    <div class="dimensions medium-text">
-      <h2>Wymiary</h2>
-      <% if (product.category_id === 6) { %>
-        <p>Wysokość :
-        <p>Długość: <%= product.length %> cm</p>
-        <p>Szerokość: <%= product.width %> cm</p>
+  </div>
+  <div class="dimensions medium-text">
+    <h2>Wymiary</h2>
+    <% if (product.category_id === 6) { %>
+    <p>Wysokość:</p>
+    <p>Długość: <%= product.length %> cm</p>
+    <p>Szerokość: <%= product.width %> cm</p>
+    <% } %>
+  </div>
+  <%- include('components/footer.ejs') %>
 
-      <% } %>
-    </div>
-    <%- include('components/footer.ejs') %>
+  <script>
+document.querySelectorAll('.color-button').forEach(button => {
+    button.addEventListener('click', (event) => {
+        const productId = event.target.dataset.id;
+        // Przeładuj stronę z nowym produktem
+        window.location.href = `/product/${productId}`;
+    });
+});
+
+  </script>
+
 </body>
 
 </html>
