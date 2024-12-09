@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edytuj Produkt</title>
+  <link rel="stylesheet" href="/css/global-style.min.css" />
+<link rel="stylesheet" href="/css/header.min.css" />
+</head>
+<body>
+  <%- include('components/header.ejs') %>
+
+  <h1>Edytuj Produkt</h1>
+  <form action="/admin-options/products/edit/<%= product.product_id %>" method="post">
+    <div><label>Cena: <input type="number" name="price" step="0.01" value="<%= product.price %>" required></label></div>
+    <div><label>Ilość: <input type="number" name="quantity" value="<%= product.quantity %>" required></label></div>
+    <button type="submit">Zapisz</button>
+  </form>
+  
+  <%- include('components/footer.ejs') %>
+</body>
+</html>

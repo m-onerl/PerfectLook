@@ -28,7 +28,8 @@ router.post("/login", (req, res) => {
             return res.render("login", { errorMessage, username });
         }
         const id_user = result[0].id_user;
-        req.session.user = { id_user: id_user };
+        const permission = result[0].permission;
+        req.session.user = { id_user: id_user, permission: permission };
         console.log("Prawidłowe dane");
         res.redirect("/");
     });
