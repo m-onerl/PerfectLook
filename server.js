@@ -25,5 +25,5 @@ app.set("views", __dirname + "/public");
 app.use(routing);
 
 app.listen(port, () => {
-  console.log(`Aplikacja uruchomiona jest na http://135.125.155.141:${port}`);
+  console.log(`Aplikacja uruchomiona jest na localhost:${port}`);
 });

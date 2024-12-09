@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="pl">
-<head>
-  <meta charset="UTF-8" />
-  <title>Admin Options</title>
-
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/admin.css" rel="stylesheet" />
+    <title>Admin - Perfect Look</title>
+  </head>
+  <body>
   <%- include('components/header.ejs') %>
 
-  <h1>Admin Options</h1>
-  <button onclick="location.href='/admin-options/couriers'">Kurierzy</button>
-  <button onclick="location.href='/admin-options/orders'">Zamówienia</button>
-  <button onclick="location.href='/admin-options/products'">Produkty</button>
-  <button onclick="location.href='/admin-options/users'">Użytkownicy</button>
+  <h1>Admin Options</h1><br>
+  
+  <div class="button-container">
+  <button class="admin-button" onclick="location.href='/admin-options/couriers'">Kurierzy</button>
+  <button class="admin-button" onclick="location.href='/admin-options/orders'">Zamówienia</button>
+  <button class="admin-button" onclick="location.href='/admin-options/products'">Produkty</button>
+  <button class="admin-button" onclick="location.href='/admin-options/users'">Użytkownicy</button><br>
+  </div>
+  
 
   <% if (data && data.length > 0) { %>
     <table>
