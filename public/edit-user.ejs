@@ -3,19 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <title>Edytuj Użytkownika</title>
+  <link rel="stylesheet" href="/css/global-style.min.css" />
+<link rel="stylesheet" href="/css/header.min.css" />
 </head>
 <body>
   <%- include('components/header.ejs') %>
 
   <h1>Edytuj Użytkownika</h1>
-  <form action="/admin-options/users/edit/<%= user.id_user %>" method="post">
-    <label>Imię: <input type="text" name="name" value="<%= user.name %>" required></label>
-    <label>Nazwisko: <input type="text" name="last_name" value="<%= user.last_name %>" required></label>
-    <label>Adres: <input type="text" name="address" value="<%= user.address %>" required></label>
-    <label>Telefon: <input type="text" name="phone_number" value="<%= user.phone_number %>" required></label>
-    <label>Email: <input type="email" name="email" value="<%= user.email %>" required></label>
-    <button type="submit">Zapisz</button>
-  </form>
+<form action="/admin-options/users/edit/<%= user.id_user %>" method="post">
+  <div>
+    <label>Imię:</label>
+    <input type="text" name="name" value="<%= user.name %>" required>
+  </div>
+  <div>
+    <label>Nazwisko:</label>
+    <input type="text" name="last_name" value="<%= user.last_name %>" required>
+  </div>
+  <div>
+    <label>Adres:</label>
+    <input type="text" name="address" value="<%= user.address %>" required>
+  </div>
+  <div>
+    <label>Telefon:</label>
+    <input type="text" name="phone_number" value="<%= user.phone_number %>" required>
+  </div>
+  <div>
+    <label>Email:</label>
+    <input type="email" name="email" value="<%= user.email %>" required>
+  </div>
+  <button type="submit">Zapisz</button>
+</form>
   
   <%- include('components/footer.ejs') %>
 </body>

@@ -37,6 +37,9 @@
     <% if (session.user && session.user.permission === 'admin') { %>
       <a href='/admin-options'>Opcje administratora</a>
     <% } %>
+    <% if (session.user) { %>
+      <a href="/my-orders">Moje Zamówienia</a>
+    <% } %>
     <a href="/cart">
       <svg
         width="32"

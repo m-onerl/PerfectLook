@@ -1,0 +1,91 @@
+<!-- FILE: public/my-orders.ejs -->
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Moje Zamówienia</title>
+</head>
+<body>
+  <%- include('components/header.ejs') %>
+
+  <div class="container">
+    <h1>Moje Zamówienia</h1>
+    <% if (orders.length === 0) { %>
+      <p>Nie masz jeszcze żadnych zamówień.</p>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>ID Zamówienia</th>
+            <th>Data</th>
+            <th>Status</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orders.forEach(order => { %>
+            <tr>
+              <td><%= order.id_order %></td>
+              <td><%= order.date %></td>
+              <td><%= order.status %></td>
+              <td>
+                <button class="expand-btn" data-order-id="<%= order.id_order %>">Rozwiń</button>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const expandButtons = document.querySelectorAll('.expand-btn');
+
+      expandButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const orderId = this.getAttribute('data-order-id');
+          const existingDetails = document.getElementById(`order-details-${orderId}`);
+
+          if (existingDetails) {
+            existingDetails.remove();
+            this.textContent = 'Rozwiń';
+          } else {
+            fetch(`/order-items/${orderId}`)
+              .then(response => response.json())
+              .then(data => {
+                const row = this.parentNode.parentNode;
+                const detailsRow = document.createElement('tr');
+                detailsRow.id = `order-details-${orderId}`;
+
+                const detailsCell = document.createElement('td');
+                detailsCell.colSpan = 4;
+
+                if (data.length === 0) {
+                  detailsCell.innerText = 'Brak produktów w tym zamówieniu.';
+                } else {
+                  let html = '<table class="order-details-table"><thead><tr><th>Nazwa Produktu</th><th>Ilość</th></tr></thead><tbody>';
+                  data.forEach(item => {
+                    html += `<tr><td>${item.name}</td><td>${item.quantity}</td></tr>`;
+                  });
+                  html += '</tbody></table>';
+                  detailsCell.innerHTML = html;
+                }
+
+                detailsRow.appendChild(detailsCell);
+                row.parentNode.insertBefore(detailsRow, row.nextSibling);
+                this.textContent = 'Zwiń';
+              })
+              .catch(err => {
+                console.error('Error fetching order items:', err);
+                alert('Wystąpił błąd podczas pobierania szczegółów zamówienia.');
+              });
+          }
+        });
+      });
+    });
+  </script>
+
+  <%- include('components/footer.ejs') %>
+</body>
+</html>

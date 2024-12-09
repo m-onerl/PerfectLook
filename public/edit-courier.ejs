@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>Edytuj Kuriera</title>
+  <link rel="stylesheet" href="/css/global-style.min.css" />
+<link rel="stylesheet" href="/css/header.min.css" />
 </head>
 <body>
   <%- include('components/header.ejs') %>
 
   <h1>Edytuj Kuriera</h1>
   <form action="/admin-options/couriers/edit/<%= courier.id_courier %>" method="post">
-    <label>Nazwa: <input type="text" name="name" value="<%= courier.name %>" required></label>
-    <label>Cena: <input type="number" name="price" step="0.01" value="<%= courier.price %>" required></label>
+    <div><label>Nazwa: <input type="text" name="name" value="<%= courier.name %>" required></label></div>
+  <div><label>Cena: <input type="number" name="price" step="0.01" value="<%= courier.price %>" required></label></div>
     <button type="submit">Zapisz</button>
   </form>
   

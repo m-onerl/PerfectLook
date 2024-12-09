@@ -2,10 +2,18 @@ const express = require("express");
 const router = express.Router();
 const connection = require("../dbConnect");
 
-router.get("/cart", (req, res) => {
+function requireLogin(req, res, next) {
   if (!req.session.user) {
-    return res.redirect("/login");
+    res.redirect('/login');
+  } else {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    next();
   }
+}
+
+
+router.get("/cart", requireLogin, (req, res) => {
+
 
   console.log(req.session.user.id_user);
 
@@ -34,7 +42,7 @@ router.get("/cart", (req, res) => {
   });
 });
 
-router.post("/clear-cart", (req, res) => {
+router.post("/clear-cart", requireLogin, (req, res) => {
   console.log(req.session.user.id_user);
 
   const sql = "DELETE FROM carts WHERE id_user = ?";
@@ -50,7 +58,7 @@ router.post("/clear-cart", (req, res) => {
   });
 });
 
-router.post("/process-payment", (req, res) => {
+router.post("/process-payment", requireLogin, (req, res) => {
   const userId = req.session.user.id_user;
   const orderDate = new Date().toISOString().slice(0, 19); 
   const { payment_method, address, courier } = req.body;

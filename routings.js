@@ -18,6 +18,7 @@ const randomRoutes = require("./routes/random");
 const materials = require("./routes/materials");
 const faqRoutes = require("./routes/faq");
 const adminRoutes = require("./routes/admin");
+const ordersRoutes = require("./routes/orders");
 
 router.use(cartRoutes);
 router.use(creatorRoutes);
@@ -34,5 +35,6 @@ router.use(randomRoutes);
 router.use(materials);
 router.use(faqRoutes);
 router.use(adminRoutes);
+router.use(ordersRoutes);
 
 module.exports = router;
