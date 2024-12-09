@@ -34,6 +34,9 @@
   <div class="links medium-text">
     <a href="/"> Strona główna </a>
     <a href="/store">Sklep</a>
+    <% if (session.user && session.user.permission === 'admin') { %>
+      <a href='/admin-options'>Opcje administratora</a>
+    <% } %>
     <a href="/cart">
       <svg
         width="32"
