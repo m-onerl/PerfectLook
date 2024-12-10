@@ -1,12 +1,16 @@
 <link rel="stylesheet" href="../css/footer.min.css">
 <div class="footer">
-    <a href="/regulations">Regulamin</a>
-    <a href="/policy">Polityka prywatności</a>
-    <a href="/cookies">Ustawienia plików cookie</a>
+    <a href="/regulations" aria-label="Regulamin" style="color: #004085;">Regulamin</a>
+    <a href="/policy" aria-label="Polityka prywatnosci" style="color: #004085;">Polityka prywatności</a>
+    <a href="/cookies" aria-label="Pliki cookies" style="color: #004085;">Ustawienia plików cookie</a>
 </div>
-<div id="consent-banner" class="banner" style="display: none;">
-    <p>Ta strona używa plików cookies, aby zapewnić najlepszą jakość korzystania z naszej strony. <a href="/cookies">Dowiedz się więcej</a></p>
-    <button id="accept-button">Akceptuję</button>
+<div id="consent-banner" class="banner" style="display: none; background-color: #f8f9fa; color: #212529; border: 1px solid #ced4da; padding: 15px;">
+    <p>
+        Ta strona używa plików cookies, aby zapewnić najlepszą jakość korzystania z naszej strony. 
+        <a href="/cookies" style="color: #004085; font-weight: bold; text-decoration: underline;" aria-label="Dowiedz się więcej">
+            Dowiedz się więcej
+        </a>
+    </p>
+    <button id="accept-button" style="background-color: #004085; color: white; border: none; padding: 10px 20px; cursor: pointer;">Akceptuję</button>
 </div>
-
 <script src="/js/consentNotice.js"></script>

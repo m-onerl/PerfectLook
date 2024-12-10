@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="pl">
   <head>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .main-image {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+    </style>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Perfect Look - Moda na każdą okazję</title>
@@ -16,16 +28,25 @@
           Znajdź idealny styl dla siebie! Od codziennych ubrań po eleganckie zestawy.
           Promocje do -50%! Sprawdź najnowsze kolekcje i bestsellerowe produkty już teraz.
         </p>
-        <button class="shop-now"><a href="/store">Kup Teraz</button></a>
+        <button class="shop-now"><a href="/store"aria-label="Kup Teraz">Kup Teraz</button></a>
       </div>
-      <img src="img/main.png" alt="kobieta na zakupach" class="main-image" />
+      <picture>
+        <source srcset="img/main.webp" type="image/webp">
+        <img 
+          src="img/main.png" 
+          alt="kobieta na zakupach" 
+          class="main-image" 
+          loading="eager" 
+          fetchpriority="high"
+        >
+      </picture>
 
     </div>
 
 
 
     <div class="carousel" id="product-carousel">
-      <button onclick="prevSlide()" class="arrow">
+      <button onclick="prevSlide()" class="arrow" aria-label="Previous Slide">
         <svg
           width="27"
           height="23"
@@ -40,7 +61,7 @@
         </svg>
       </button>
       <div class="carousel-inner" id="carousel-inner"></div>
-      <button onclick="nextSlide()" class="arrow">
+      <button onclick="nextSlide()" class="arrow" aria-label="Next Slide">
         <svg
           width="27"
           height="23"
@@ -59,6 +80,6 @@
 
     <%- include('components/footer.ejs') %>
 
-    <script src="js/carusel.js"></script>
+  <script src="js/carusel.js" defer></script>
   </body>
 </html>

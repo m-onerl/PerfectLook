@@ -35,7 +35,7 @@
 </style>
 <div class="header">
   <div class="logo">
-    <a href="/">
+    <a href="/" aria-label="Wróć do strony głownej">
         <svg
         width="137"
         height="96"
@@ -62,9 +62,9 @@
     </a>
   </div>
   <div class="links medium-text">
-    <a href="/"> Strona główna </a>
-    <a href="/store">Sklep</a>
-    <a href="/cart">
+    <a href="/" aria-label="Wróc do strony głownej">Strona główna</a>
+    <a href="/store" aria-label="Wyswietl Sklep">Sklep</a>
+    <a href="/cart" aria-label="Wyswietl Koszyk"></a>
         <svg
         width="32"
         height="32"
@@ -96,7 +96,7 @@
       </svg>
     </a>
     <div class="dropdown-container">
-      <a href="#" id="login-icon">
+      <a href="#" id="login-icon" aria-label="Login">
         <svg
         width="32"
         height="32"
@@ -125,10 +125,10 @@
           <li><a href='/admin-options'>Opcje administratora</a></li>
         <% } %>
         <% if (session.user) { %>
-          <li><a href="/my-orders">Moje Zamówienia</a></li>
-          <li><a href="/logout">Wyloguj</a></li>
+          <li><a href="/my-orders" aria-label="Moje Zamówienia">Moje Zamówienia </a></li>
+          <li><a href="/logout" aria-label="Wyloguj">Wyloguj</a></li>
         <% } else { %>
-          <li><a href="/login">Zaloguj się</a></li>
+          <li><a href="/login" aria-label="Zaloguj się">Zaloguj się</a></li>
         <% } %>
       </ul>
     </div>
@@ -147,18 +147,6 @@
         }
       });
 </script>
-<script>
-  const loginIcon = document.getElementById('login-icon');
-  const dropdownMenu = document.getElementById('dropdown-menu');
+<script src="/js/list.js" defer></script>
 
-  loginIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    dropdownMenu.classList.toggle('hidden');
-  });
 
-  window.addEventListener('click', (e) => {
-    if (!loginIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
-      dropdownMenu.classList.add('hidden');
-    }
-  });
-</script>

@@ -11,7 +11,7 @@
     <div class="products-wrapper">
       <% products.forEach(product => { %>
       <div class="product">
-        <a href="/product/<%= product.product_id %>">
+        <a href="/product/<%= product.product_id %>" aria-label="Produkt sklepu">
           <img
             src="/img/<%= product.img_file %>"
             alt="<%= product.img_file %>"
