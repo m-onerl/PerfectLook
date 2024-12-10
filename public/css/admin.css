@@ -1,0 +1,143 @@
+
+  .admin-button {
+    font-size: 1.5rem;
+    padding: 20px;
+    width: 300px; 
+    height: 120px; 
+  }
+  .button-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; 
+    justify-content: center; 
+    align-items: center; 
+    max-width: 500px; 
+    margin: 0 auto; 
+  }
+  
+  .button-container button {
+    
+    font-size: 1.5rem;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .button-container button:hover {
+    transform: scale(1.1); 
+  }
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  form div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  form input,
+  form select,
+  form textarea,
+  form button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%; 
+    box-sizing: border-box;
+  }
+  
+  form textarea {
+    resize: vertical; 
+  }
+  
+  form button {
+    grid-column: span 2; 
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  form button:hover {
+    background-color: #333; 
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1rem;
+    text-align: left;
+    background-color: #1e1e1e;
+    color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  thead {
+    background-color: #333;
+  }
+  
+  thead th {
+    padding: 10px 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  tbody tr {
+    border-bottom: 1px solid #444;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #2b2b2b;
+  }
+  
+  tbody td {
+    padding: 10px 15px;
+  }
+  
+  td[data-label]::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    display: none;
+  }
+  
+  button {
+    padding: 8px 12px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #444;
+  }
+  
+  button + button {
+    margin-left: 10px;
+  }
+  
