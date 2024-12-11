@@ -7,106 +7,111 @@
     <title>Admin - Perfect Look</title>
   </head>
   <body>
-  <%- include('components/header.ejs') %>
+    <%- include('components/header.ejs') %>
 
-  <h1>Admin Options</h1><br>
-  <div class="button-container">
-    <button><a href="/admin-options/couriers" class="admin-button" aria-label="Kurierzy">Kurierzy</a></button>
-    <button><a href="/admin-options/orders" class="admin-button" aria-label="Zamówienia">Zamówienia</a></button>
-    <button><a href="/admin-options/products" class="admin-button" aria-label="Produkty">Produkty</a></button>
-    <button><a href="/admin-options/users" class="admin-button" aria-label="Użytkownicy">Użytkownicy</a></button>
-  </div>
-  
+    <h1>Admin Options</h1><br>
+    <div class="button-container">
+      <a href="/admin-options/couriers" class="admin-button" aria-label="Kurierzy">Kurierzy</a>
+      <a href="/admin-options/orders" class="admin-button" aria-label="Zamówienia">Zamówienia</a>
+      <a href="/admin-options/products" class="admin-button" aria-label="Produkty">Produkty</a>
+      <a href="/admin-options/users" class="admin-button" aria-label="Użytkownicy">Użytkownicy</a>
+    </div>
 
-  <% if (data && data.length > 0) { %>
-    <table>
-      <thead>
-        <tr>
-          <% for (let key in data[0]) { %>
-            <th><%= key %></th>
-          <% } %>
-          <th>Akcje</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% data.forEach(row => { %>
+    <% if (data && data.length > 0) { %>
+      <table>
+        <thead>
           <tr>
-            <% for (let key in row) { %>
-              <td data-label="<%= key %>"><%= row[key] %></td>
+            <% for (let key in data[0]) { %>
+              <th><%= key %></th>
             <% } %>
-            <td>
-              <% if (currentView === 'couriers') { %>
-                <button onclick="location.href='/admin-options/couriers/edit/<%= row.id_courier %>'">Edytuj</button>
-                <button onclick="if(confirm('Czy na pewno usunąć?')) location.href='/admin-options/couriers/delete/<%= row.id_courier %>'">Usuń</button>
-              <% } else if (currentView === 'orders') { %>
-                <form action="/admin-options/orders/update/<%= row.id_order %>" method="post">
-                  <select name="status" onchange="this.form.submit()">
-                    <option value="zapłacono" <%= row.status === 'zapłacono' ? 'selected' : '' %>>Zapłacono</option>
-                    <option value="oczekiwanie" <%= row.status === 'oczekiwanie' ? 'selected' : '' %>>Oczekiwanie</option>
-                  </select>
-                </form>
-              <% } else if (currentView === 'products') { %>
-                <button onclick="location.href='/admin-options/products/edit/<%= row.product_id %>'">Edytuj</button>
-                <button onclick="if(confirm('Czy na pewno usunąć?')) location.href='/admin-options/products/delete/<%= row.product_id %>'">Usuń</button>
-              <% } else if (currentView === 'users') { %>
-                <button onclick="location.href='/admin-options/users/edit/<%= row.id_user %>'">Edytuj</button>
-                <button onclick="if(confirm('Czy na pewno usunąć?')) location.href='/admin-options/users/delete/<%= row.id_user %>'">Usuń</button>
-              <% } %>
-            </td>
+            <th>Akcje</th>
           </tr>
-        <% }) %>
-      </tbody>
-    </table>
-  <% } %>
+        </thead>
+        <tbody>
+          <% data.forEach(row => { %>
+            <tr>
+              <% for (let key in row) { %>
+                <td data-label="<%= key %>"><%= row[key] %></td>
+              <% } %>
+              <td>
+                <% if (currentView === 'couriers') { %>
+                  <div class="button-container">
+                  <a href="/admin-options/couriers/edit/<%= row.id_courier %>" class="action-button">Edytuj</a>
+                  <a href="/admin-options/couriers/delete/<%= row.id_courier %>" 
+                    class="action-button" 
+                    onclick="return confirm('Czy na pewno usunąć?')">Usuń</a>
+                  </div>
+                <% } else if (currentView === 'orders') { %>
+                  <form action="/admin-options/orders/update/<%= row.id_order %>" method="post">
+                    <select name="status" onchange="this.form.submit()">
+                      <option value="zapłacono" <%= row.status === 'zapłacono' ? 'selected' : '' %>>Zapłacono</option>
+                      <option value="oczekiwanie" <%= row.status === 'oczekiwanie' ? 'selected' : '' %>>Oczekiwanie</option>
+                    </select>
+                  </form>
+                <% } else if (currentView === 'products') { %>
+                  <a href="/admin-options/products/edit/<%= row.product_id %>" class="action-button">Edytuj</a>
+                  <a href="/admin-options/products/delete/<%= row.product_id %>" 
+                    class="action-button" 
+                    onclick="return confirm('Czy na pewno usunąć?')">Usuń</a>
+                <% } else if (currentView === 'users') { %>
+                  <a href="/admin-options/users/edit/<%= row.id_user %>" class="action-button">Edytuj</a>
+                  <a href="/admin-options/users/delete/<%= row.id_user %>" 
+                    class="action-button" 
+                    onclick="return confirm('Czy na pewno usunąć?')">Usuń</a>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
 
-  <!-- Form to add new courier -->
-  <% if (currentView === 'couriers') { %>
-    <h2>Dodaj nowego kuriera</h2>
-    <form action="/admin-options/couriers/add" method="post">
-      <label>Nazwa: <input type="text" name="name" required></label>
-      <label>Cena: <input type="number" name="price" step="0.01" required></label>
-      <button type="submit">Dodaj</button>
-    </form>
-  <% } %>
+    <% if (currentView === 'couriers') { %>
+      <h2>Dodaj nowego kuriera</h2>
+      <form action="/admin-options/couriers/add" method="post">
+        <label>Nazwa: <input type="text" name="name" required></label>
+        <label>Cena: <input type="number" name="price" step="0.01" required></label>
+        <button type="submit">Dodaj</button>
+      </form>
+    <% } %>
 
-  <!-- Form to add new product -->
-  <% if (currentView === 'products') { %>
-    <h2>Dodaj nowy produkt</h2>
-    <form action="/admin-options/products/add" method="post" enctype="multipart/form-data">
-      <div><label>Nazwa: <input type="text" name="name" required></label></div>
-      <div><label>Cena: <input type="number" name="price" step="0.01" required></label></div>
-      <div><label>Kategoria:
-        <select name="category_id" required>
-          <% categories.forEach(category => { %>
-            <option value="<%= category.id_category %>"><%= category.name %></option>
-          <% }); %>
-        </select>
-      </label></div>
-      <div><label>Opis: <textarea name="description" required></textarea></label></div>
-      <div><label>Ilość: <input type="number" name="quantity" required></label></div>
-      <div><label>Typ produktu:
-        <select name="product_type" required>
-          <option value="simple">Prosty</option>
-          <option value="configurable">Konfigurowalny</option>
-        </select>
-      </label></div>
-      <div><label>Kolor (hex): <input type="text" name="hex_color" required></label></div>
-      <div><label>Rozmiar: <input type="number" name="size" step="0.5" required></label></div>
-      <div><label>Marka: <input type="text" name="brand" required></label></div>
-      <div><label>Materiał: <input type="text" name="fabric" required></label></div>
-      <div><label>Płeć:
-        <select name="gender" required>
-          <option value="men">Męski</option>
-          <option value="women">Damski</option>
-          <option value="unisex">Unisex</option>
-        </select>
-      </label></div>
-      <div><label>ID konfigurowalnego produktu (jeśli dotyczy): <input type="number" name="configurable_id"></label></div>
-      <div><label>Plik obrazu: <input type="file" name="img_file" accept="image/*" required></label></div>
-      <button type="submit">Dodaj produkt</button>
-    </form>
-  <% } %>
+    <% if (currentView === 'products') { %>
+      <h2>Dodaj nowy produkt</h2>
+      <form action="/admin-options/products/add" method="post" enctype="multipart/form-data">
+        <div><label>Nazwa: <input type="text" name="name" required></label></div>
+        <div><label>Cena: <input type="number" name="price" step="0.01" required></label></div>
+        <div><label>Kategoria:
+          <select name="category_id" required>
+            <% categories.forEach(category => { %>
+              <option value="<%= category.id_category %>"><%= category.name %></option>
+            <% }); %>
+          </select>
+        </label></div>
+        <div><label>Opis: <textarea name="description" required></textarea></label></div>
+        <div><label>Ilość: <input type="number" name="quantity" required></label></div>
+        <div><label>Typ produktu:
+          <select name="product_type" required>
+            <option value="simple">Prosty</option>
+            <option value="configurable">Konfigurowalny</option>
+          </select>
+        </label></div>
+        <div><label>Kolor (hex): <input type="text" name="hex_color" required></label></div>
+        <div><label>Rozmiar: <input type="number" name="size" step="0.5" required></label></div>
+        <div><label>Marka: <input type="text" name="brand" required></label></div>
+        <div><label>Materiał: <input type="text" name="fabric" required></label></div>
+        <div><label>Płeć:
+          <select name="gender" required>
+            <option value="men">Męski</option>
+            <option value="women">Damski</option>
+            <option value="unisex">Unisex</option>
+          </select>
+        </label></div>
+        <div><label>ID konfigurowalnego produktu (jeśli dotyczy): <input type="number" name="configurable_id"></label></div>
+        <div><label>Plik obrazu: <input type="file" name="img_file" accept="image/*" required></label></div>
+        <button type="submit">Dodaj produkt</button>
+      </form>
+    <% } %>
 
-  <%- include('components/footer.ejs') %>
-</body>
+    <%- include('components/footer.ejs') %>
+  </body>
 </html>

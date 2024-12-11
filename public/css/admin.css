@@ -8,6 +8,33 @@
   margin:  auto;
 }
 
+.action-button {
+  display: inline-block; 
+  padding: 10px 15px; 
+  font-size: 1rem; 
+  color: #ffffff; 
+  background-color: #000000; 
+  text-decoration: none; 
+  border: none; 
+  border-radius: 5px;
+  cursor: pointer; 
+  transition: background-color 0.3s, transform 0.2s; 
+}
+
+.action-button:hover {
+  background-color: #161616; 
+  transform: scale(1.05); 
+}
+
+.action-button:active {
+  background-color: #1f1f1f; 
+  transform: scale(0.95); 
+}
+
+.action-button + .action-button {
+  margin-left: 10px; 
+}
+
 .admin-button {
   font-size: 1.5rem;
   padding: 20px;
