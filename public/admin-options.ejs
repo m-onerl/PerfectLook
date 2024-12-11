@@ -10,12 +10,11 @@
   <%- include('components/header.ejs') %>
 
   <h1>Admin Options</h1><br>
-  
   <div class="button-container">
-  <button class="admin-button" onclick="location.href='/admin-options/couriers'" aria-label="Kurierzy" >Kurierzy</button>
-  <button class="admin-button" onclick="location.href='/admin-options/orders'" aria-label="Zamówienia" >Zamówienia</button>
-  <button class="admin-button" onclick="location.href='/admin-options/products'"aria-label="Produkty">Produkty</button>
-  <button class="admin-button" onclick="location.href='/admin-options/users'"aria-label="Uzytkownicy">Użytkownicy</button><br>
+    <button><a href="/admin-options/couriers" class="admin-button" aria-label="Kurierzy">Kurierzy</a></button>
+    <button><a href="/admin-options/orders" class="admin-button" aria-label="Zamówienia">Zamówienia</a></button>
+    <button><a href="/admin-options/products" class="admin-button" aria-label="Produkty">Produkty</a></button>
+    <button><a href="/admin-options/users" class="admin-button" aria-label="Użytkownicy">Użytkownicy</a></button>
   </div>
   
 

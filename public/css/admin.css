@@ -1,25 +1,48 @@
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 5%; 
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+  margin:  auto;
+}
 
-  .admin-button {
-    font-size: 1.5rem;
-    padding: 20px;
-    width: 300px; 
-    height: 120px; 
-  }
-  .button-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px; 
-    justify-content: center; 
-    align-items: center; 
-    max-width: 500px; 
-    margin: 0 auto; 
-  }
+.admin-button {
+  font-size: 1.5rem;
+  padding: 20px;
+  width: 250px; 
+  text-align: center;
+  background-color: #ffffff;
+  color: #000;
+  border: none; 
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease-in-out, background-color 0.3s, box-shadow 0.3s;
+}
+
+.admin-button:hover {
+  transform: scale(1.05); 
+  background-color: #333; 
+  color: #fff; 
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4); 
+}
+
+.admin-button:focus {
+  outline: none; 
+}
+
+  
   
   .button-container button {
     
     font-size: 1.5rem;
-    padding: 20px;
-    background-color: #000;
+    padding: 50px;
+    background-color: #ffffff;
     color: #fff;
     border: none;
     border-radius: 8px;
